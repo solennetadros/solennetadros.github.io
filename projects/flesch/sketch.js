@@ -13,11 +13,19 @@ var theText;
 
 function setup() {
   noCanvas();
-
   input = select('#textinput');
   button = select('#submit');
-  button.mousePressed(handleInput);;
+  button.mousePressed(handleInput);
+  buttonMode = select('#toggle');
+  buttonMode.mousePressed(toggleMode);
+
+  dropZoneView = false;
+  toggleMode();
 }
+
+function draw() {
+}
+
 
 function gotFile(file) {
   if (file.type === 'text') {
@@ -32,7 +40,6 @@ function handleInput() {
   theText = input.value();
   processFlesch(theText);
 }
-
 
 function processFlesch(data) {
   var len = data.length;
@@ -67,12 +74,15 @@ function processFlesch(data) {
 
     var report = "";
 
-    report += "Total Syllables: " + totalSyllables + "<br>";
-    report += "Total Words    : " + totalWords + "<br>";
-    report += "Total Sentences: " + totalSentences + "<br>";
-    report += "Flesch Index   : " + flesch + "\n";
+    report += "Total Syllables: " + "<span>" + totalSyllables + "</span>" + "<br>";
+    report += "Total Words: " + "<span>" + totalWords + "</span>" + "<br>";
+    report += "Total Sentences: " + "<span>" + totalSentences + "</span>" +"<br>";
+    report += "Flesch Index: " + "<span>" +  flesch.toFixed(2) + "</span>" +"<br>";
 
-    var fleschResults = createP(report);
+    var reportParagraph = createDiv('');
+    reportParagraph.attribute('class', 'report-paragraph')
+    // var fleschResults = createP(report);
+    reportParagraph.child(createP(report))
     // fleschResults.class('text');
   }
 }
