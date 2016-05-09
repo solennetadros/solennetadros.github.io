@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>weather</title>
+    <script src="libraries/p5.js" type="text/javascript"></script>
+
+    <script src="libraries/p5.dom.js" type="text/javascript"></script>
+    <script src="libraries/p5.sound.js" type="text/javascript"></script>
+
+    <script src="sketch.js" type="text/javascript"></script>
+
+    <style> body {padding: 0; margin: 20px;} canvas {vertical-align: top;} </style>
+  </head>
+  <body>
+    <h1 style="font-size:64px;text-align : center; color:Black; font-family:Verdana; "> Your Weather Destination </h1>
+    <p style="text-align:center;font-family:Verdana; color:red; font-size: 30px;"> Select Your City</p>
+    <p style="text-align:center; font-family:Impact; font-size: 30px;color:grey;"><strong>- NEW YORK - LONDON - DUBAI - TOKYO - SYDNEY -</strong> </p>
+    <center><img class="imgstyle" src="img/cities.png"></center>
+    <center>
+      <p>
+        City: <input id = "city" value = "New York">
+        <button id = "submit">Submit</button>
+        <br>
+      </p>
+    </center>
+  </body>
+</html>
