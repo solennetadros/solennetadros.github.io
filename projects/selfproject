@@ -1,0 +1,41 @@
+var bgcolor;
+var button;
+var slider;
+var nameInput;
+var nameP;
+
+var sliderPosNeg;
+
+function setup() {
+  canvas = createCanvas(1000, 800);
+  canvas.mousePressed(changeColor);
+  
+  bgcolor = color(200);
+  nameP = createP('Think of one event that had an impact on your life');
+  nameP = createP('Now on the toggle below, rate the impact of this event');
+  nameP = createP('0 being a small impact, and 10 being a great impact');
+  button = createButton("submit");
+  button.mousePressed(changeColor);
+  sliderOne = createSlider(250, 700, 475) ;
+  nameInput = createInput('Question 1');
+  
+  nameInput.changed(updateText);
+}
+
+function updateText() {
+  nameP.html(nameInput.value());
+}
+
+function changeColor() {
+  bgcolor = color(random(255))
+  
+}
+
+function draw() {
+  background(255);
+  fill(255, 0, 175);
+  ellipse(500, 350, sliderOne.value(), sliderOne.value());
+  //nameP.html(input.value());
+  text(nameInput.value(), 10, 20);
+  
+}
