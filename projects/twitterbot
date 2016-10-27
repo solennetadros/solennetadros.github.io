@@ -1,0 +1,109 @@
+console.log("the follow bot is starting");
+
+var Twit = require('twit');
+
+var config = require('./config');
+var T = new Twit(config);
+var tweetListArray = ["something just destroyed 102,916 trees on my body #SOS ", 
+"I'm coming down with a case of Global Warming, Doc said my temp is too high #omg", 
+"I think im allergic to plastic, I just ate 4,000 plsatic bags in australia in the past minute #Foodie", 
+"I feel like I'm missing some species, I could have sworn I had 200 more yesterday #Extinction #GlobalWarming", 
+"I just gained 2.4 million pounds of CO2, the gym won't help me solve this issue #GreenHouseGases "];
+
+// Setting up a user stream 
+var stream = T.stream('user');
+
+//Anytime somene follows me 
+stream.on('follow', followed);
+
+//anytime someone tweets me 
+stream.on('tweet', tweetEvent);
+
+function tweetEvent(eventReply){ ///SOMEONE TWEETED YOU, this is the reply
+	// var fs = require('fs');
+	// var json = JSON.stringify(eventTweet,null,2);
+	// fs.writeFile("tweet.json", json);
+	var replyto = eventReply.in_reply_to_screen_name;
+	var text = eventReply.text;
+	var from = eventReply.user.screen_name;
+	console.log(replyto + ' ' + from);
+
+	if (replyto === 'EarthFeelingz') {
+		var newtweet = '@' + from + ' thank you for giving me some attention! #EarthFeelingz'
+		tweetReply(newtweet);
+	}
+
+}
+
+
+function followed(eventMsg){ /////Tweet to person who follows me
+	var name = eventMsg.source.name;
+	var screenName = eventMsg.source.screen_name;
+	tweetReply('.@'+ screenName + ' THANKS 4 CARIN BOUT MY FEELINGZ #EarthFeelingz ');
+}
+
+
+function tweetReply(txt){ //tweet reply action  "txt"
+	var r = Math.floor(Math.random()*100);
+	var tweet = {
+		status:  txt + r
+	}
+		T.post('statuses/update', tweet, tweeted);//post to the twitter API
+
+		function tweeted(err, data, response){//tells us if it worked or nah
+		if (err) {
+			console.log("follow bot failed :( ");
+		}else {
+		console.log("follow bot is starting!");
+		}
+	}
+
+}
+
+
+tweetIt();
+
+setInterval(tweetIt, 1000*3600);//tweet every hour s
+
+function tweetIt(){
+	for (var i=0; i<tweetListArray.length; i++){
+			console.log(tweetListArray[i]);
+	var r = Math.floor(Math.random()*100);
+	var tweet = {
+		status:  tweetListArray[i] +  ' #EarthFeelingz ' + r//make a status
+	}
+	T.post('statuses/update', tweet, tweeted);//post to the twitter API
+}
+	function tweeted(err, data, response){//tells us if it worked or nah
+		if (err) {
+			console.log("something went wrong");
+		}else {
+		console.log("it worked");
+		}
+	}
+}
+
+
+
+// //////GET() searching on twitter ??????
+var params = {
+q: 'global warming',  ////this is what were searching
+count: 1
+ }
+
+
+T.get('search/tweets', params, gotData);
+
+ function gotData(err, data, response) {
+ 	var tweets = data.statuses; 
+ 	for ( var i = 0; i< tweets.length; i++){
+  console.log(tweets[i].text);
+ 	}
+}
+
+
+
+
+
+
+
